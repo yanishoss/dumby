@@ -1,2 +1,5 @@
-# dumby
-A super simple and lightweight protocol
+# :ram: Dumby
+
+> Dumby is a super lightweight and fast protocol
+
+
