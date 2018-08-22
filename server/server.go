@@ -36,7 +36,6 @@ import (
 	"bufio"
 	"crypto/rand"
 	"errors"
-	"fmt"
 	"io"
 	"math"
 	"net"
@@ -49,7 +48,6 @@ import (
 type Handler = func(trame *protocol.Trame, s chan<- *protocol.Trame)
 
 // The Server contains all the elements that allow the architecture to works correctly
-
 type Server struct {
 	maxConnections uint
 	connections    mapSessionToConnection
@@ -346,8 +344,6 @@ func (s *Server) handleDataTransfer(conn *net.TCPConn) {
 	} else {
 		s.mutex.RUnlock()
 		conn.Close()
-
-		fmt.Println("Kicked")
 		return
 	}
 }
