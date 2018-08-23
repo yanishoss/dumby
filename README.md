@@ -2,6 +2,11 @@
 
 > Dumby is a super lightweight and fast protocol
 
+## :satellite: How to download ?   
+```shell
+$ go get -u github.com/yanishoss/dumby/...
+```
+
 ## :electric_plug: How to use ?
 
 ```golang
