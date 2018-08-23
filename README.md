@@ -1,4 +1,5 @@
-# :ram: Dumby
+# :ram: Dumby  
+[![Build Status](https://travis-ci.org/yanishoss/dumby.svg?branch=master)](https://travis-ci.org/yanishoss/dumby)  
 
 > Dumby is a super lightweight and fast protocol
 
