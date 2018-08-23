@@ -49,7 +49,7 @@ func main() {
 	// So it's not difficult, right ?
 }
 ```  
-You did it :clap:
+**You did it** :clap:
 
 [See more example](./example "Examples")
 
