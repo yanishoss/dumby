@@ -44,18 +44,23 @@ import (
 	"github.com/yanishoss/dumby/protocol"
 )
 
-// A Handler is a function that handles the trames of a specific action
+// Handler is a function that handles the trames of a specific action
 type Handler = func(trame *protocol.Trame, s chan<- *protocol.Trame)
 
-// The Server contains all the elements that allow the architecture to works correctly
+// Config handles the Server's configuration
+type Config struct {
+	MaxConnections uint
+}
+
+// Server contains all the elements that allow the architecture to works correctly
 type Server struct {
-	maxConnections uint
-	connections    mapSessionToConnection
-	listener       *net.TCPListener
-	handlers       mapActionToHandlers
-	r              chan *protocol.Trame // r is the channel of the incoming data
-	s              chan *protocol.Trame // s is the channel of the upcoming data
-	mutex          *sync.RWMutex
+	config      *Config
+	connections mapSessionToConnection
+	listener    *net.TCPListener
+	handlers    mapActionToHandlers
+	r           chan *protocol.Trame // r is the channel of the incoming data
+	s           chan *protocol.Trame // s is the channel of the upcoming data
+	mutex       *sync.RWMutex
 }
 
 type mapSessionToConnection = map[protocol.Session]chan *protocol.Trame
@@ -68,16 +73,23 @@ func generateSessionID() (protocol.Session, error) {
 }
 
 // New creates a Server
-func New(maxConnections uint) *Server {
+func New(config ...*Config) *Server {
+	defaultConfig := &Config{
+		MaxConnections: 10000,
+	}
 	connections := make(mapSessionToConnection)
-	handlers := make(mapActionToHandlers)
 	listener := new(net.TCPListener)
-	mutex := new(sync.RWMutex)
+	handlers := make(mapActionToHandlers)
 	r := make(chan *protocol.Trame)
 	s := make(chan *protocol.Trame)
+	mutex := new(sync.RWMutex)
+
+	if len(config) > 0 {
+		defaultConfig = config[0]
+	}
 
 	return &Server{
-		maxConnections,
+		defaultConfig,
 		connections,
 		listener,
 		handlers,
@@ -325,7 +337,7 @@ func (s *Server) handleClose(session protocol.Session, conn *net.TCPConn, kill c
 
 func (s *Server) handleDataTransfer(conn *net.TCPConn) {
 	s.mutex.RLock()
-	if uint(len(s.connections)) <= s.maxConnections {
+	if uint(len(s.connections)) <= s.config.MaxConnections {
 		s.mutex.RUnlock()
 		send := make(chan *protocol.Trame)
 		kill := make(chan bool)
