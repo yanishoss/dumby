@@ -41,7 +41,7 @@ import (
 	"net"
 	"sync"
 
-	"../protocol"
+	"github.com/yanishoss/dumby/protocol"
 )
 
 // A Handler is a function that handles the trames of a specific action
