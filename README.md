@@ -60,9 +60,9 @@ func main() {
 [See more example](./example "Examples")
 
 ## :heart: Contributing
-You want to contribute ?  
+**You want to contribute ?** 
 Take a look at [our next projects](https://github.com/yanishoss/dumby/projects "Projects") and pick a task up !  
-The community worships you :clap:
+The community **worships you** :clap:
 
 ## :running: Yet to come  
 
