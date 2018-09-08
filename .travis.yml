@@ -4,7 +4,6 @@ go:
   - master
 install:
   - go get golang.org/x/tools/cmd/cover github.com/mattn/goveralls github.com/modocache/gover
-  - go get 
 script:
   - go test ./protocol
   - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs sh -c
