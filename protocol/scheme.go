@@ -16,31 +16,31 @@ import (
 )
 
 const (
-	// HeaderSize is the size of a Trame's header
+	// HeaderSize is the size of a Trame's header.
 	HeaderSize = 48
-	// MaxTrameSize is the maximal size of a Trame including the header
+	// MaxTrameSize is the maximal size of a Trame including the header.
 	MaxTrameSize = 4096
 )
 
 const (
-	// ActionInit is the action sent at the initialization of the session
+	// ActionInit is the action sent at the initialization of the session.
 	ActionInit = iota + 1
 )
 
-// Session is a 256 bits ID
+// Session is a 256 bits ID.
 type Session = [32]byte
 
-// Action is a 64 bits ID describing the action requested
+// Action is a 64 bits ID describing the action requested.
 type Action = uint64
 
-// PayloadSize is the size of the Payload
+// PayloadSize is the size of the Payload.
 type PayloadSize = uint64
 
-// Payload is the data of the Trame
+// Payload is the data of the Trame.
 type Payload = []byte
 
-// Trame is a Dumby trame
-// It's pretty straightforward, no need to describe it more
+// Trame is a Dumby trame.
+// It's pretty straightforward, no need to describe it more.
 type Trame struct {
 	Session     Session
 	Action      Action
@@ -56,7 +56,7 @@ func bytesToUint64(data *[]byte) (uint64, error) {
 	return binary.LittleEndian.Uint64(*data), nil
 }
 
-// New creates a Trame
+// New creates a Trame.
 func New(session Session, action Action, payload Payload) *Trame {
 	if payload == nil {
 		payload = make([]byte, 0)
@@ -70,7 +70,7 @@ func New(session Session, action Action, payload Payload) *Trame {
 	}
 }
 
-// Parse converts bytes to a Trame
+// Parse converts bytes to a Trame.
 func Parse(data []byte, trame *Trame) error {
 	dataLen := len(data)
 

@@ -44,22 +44,22 @@ import (
 	"github.com/yanishoss/dumby/protocol"
 )
 
-// Handler is a function that handles the trames of a specific action
+// Handler is a function that handles the trames of a specific action.
 type Handler = func(trame *protocol.Trame, s chan<- *protocol.Trame)
 
-// Config handles the Server's configuration
+// Config handles the Server's configuration.
 type Config struct {
 	MaxConnections uint
 }
 
-// Server contains all the elements that allow the architecture to works correctly
+// Server contains all the elements that allow the architecture to works correctly.
 type Server struct {
 	config      *Config
 	connections mapSessionToConnection
 	listener    *net.TCPListener
 	handlers    mapActionToHandlers
-	r           chan *protocol.Trame // r is the channel of the incoming data
-	s           chan *protocol.Trame // s is the channel of the upcoming data
+	r           chan *protocol.Trame // r is the channel of the incoming data.
+	s           chan *protocol.Trame // s is the channel of the upcoming data.
 	mutex       *sync.RWMutex
 }
 
@@ -72,7 +72,7 @@ func generateSessionID() (protocol.Session, error) {
 	return sessionID, err
 }
 
-// New creates a Server
+// New creates a Server.
 func New(config ...*Config) *Server {
 	defaultConfig := &Config{
 		MaxConnections: 10000,
@@ -99,7 +99,7 @@ func New(config ...*Config) *Server {
 	}
 }
 
-// AddHandlers adds the handlers to the Server and map them to the provided action
+// AddHandlers adds the handlers to the Server and map them to the provided action.
 func (s *Server) AddHandlers(action protocol.Action, handlers ...Handler) {
 	s.mutex.Lock()
 	var actualHandlers []Handler
@@ -116,7 +116,7 @@ func (s *Server) AddHandlers(action protocol.Action, handlers ...Handler) {
 	s.mutex.Unlock()
 }
 
-// Listen launches the Server
+// Listen launches the Server.
 func (s *Server) Listen(address string) error {
 	listener, err := net.Listen("tcp", address)
 
@@ -126,11 +126,11 @@ func (s *Server) Listen(address string) error {
 
 	s.listener = listener.(*net.TCPListener)
 
-	// It is quite useless provided your server runs all the time
-	// It is here just for the case you stop the server accidentally
+	// It is quite useless provided your server runs all the time.
+	// It is here just for the case you stop the server accidentally.
 	defer s.listener.Close()
 
-	// Launch the Dispatch routine before accepting connections
+	// Launch the Dispatch routine before accepting connections.
 	go s.dispatch()
 
 	for {
@@ -140,7 +140,7 @@ func (s *Server) Listen(address string) error {
 			continue
 		}
 
-		// Launch the Data Transfer routines
+		// Launch the Data Transfer routines.
 		s.handleDataTransfer(conn.(*net.TCPConn))
 	}
 }
@@ -171,7 +171,7 @@ func (s *Server) dispatch() {
 }
 
 func (s *Server) noticeDataRoutine(trame *protocol.Trame) {
-	// Reach the Data Transfer routine of the session
+	// Reach the Data Transfer routine of the session.
 	s.mutex.RLock()
 	if send, exist := s.connections[trame.Session]; exist {
 		send <- trame
@@ -186,7 +186,7 @@ func (s *Server) generateNewSession() (protocol.Session, error) {
 		return protocol.Session{}, err
 	}
 
-	// The number of different are so huge (2^256) that it will probably never enter in an infinite loop
+	// The number of different are so huge (2^256) that it will probably never enter in an infinite loop.
 	// But for security purpose:
 	trials := 0
 
@@ -231,7 +231,7 @@ func (s *Server) kill(session protocol.Session, conn *net.TCPConn) error {
 	s.mutex.Lock()
 
 	if _, exist := s.connections[session]; exist {
-		// Clean up the garbages
+		// Clean up the garbages.
 		delete(s.connections, session)
 	}
 
@@ -272,18 +272,18 @@ func (s *Server) handleIncomingData(conn *net.TCPConn, onInit func(trame *protoc
 				return
 			}
 
-			// Skip until the client initializes the connection
+			// Skip until the client initializes the connection.
 			if trame.Action != protocol.ActionInit && !isInit {
 				continue
 			}
 
-			// Skip because the connection is already initialized
+			// Skip because the connection is already initialized.
 			if trame.Action == protocol.ActionInit && isInit {
 				continue
 			}
 
 			if trame.Action == protocol.ActionInit && !isInit {
-				// Initialize the connection
+				// Initialize the connection.
 				isInit = true
 				sessionID, err = onInit(trame)
 
@@ -343,7 +343,7 @@ func (s *Server) handleDataTransfer(conn *net.TCPConn) {
 		kill := make(chan bool)
 		var session protocol.Session
 
-		// Uses for the connection initialization
+		// Uses for the connection initialization.
 		onInit := func(trame *protocol.Trame) (protocol.Session, error) {
 			s, err := s.initConnection(trame, send)
 			session = s
