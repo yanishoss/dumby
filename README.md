@@ -1,6 +1,7 @@
 # :ram: Dumby  
 [![Build Status](https://travis-ci.org/yanishoss/dumby.svg?branch=master)](https://travis-ci.org/yanishoss/dumby)
-[![Go Report Card](https://goreportcard.com/badge/github.com/yanishoss/dumby)](https://goreportcard.com/report/github.com/yanishoss/dumby)  
+[![Go Report Card](https://goreportcard.com/badge/github.com/yanishoss/dumby)](https://goreportcard.com/report/github.com/yanishoss/dumby)
+[![GoDoc](https://godoc.org/github.com/yanishoss/dumby?status.svg)](https://godoc.org/github.com/yanishoss/dumby)  
 
 > Dumby is a super lightweight and fast protocol
 
