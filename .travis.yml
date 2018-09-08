@@ -8,7 +8,7 @@ script:
   - go test ./protocol
   - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs sh -c
   - gover
-  - goveralls -coverprofile=gover.coverprofile -service=travis-ci -repotoken $COVERALLS_TOKEN
+  - goveralls -coverprofile=gover.coverprofile -service=travis-ci -repotoken=$COVERALLS_TOKEN
 env:
   global:
     secure: T3QqF9/gL1vJTR6hkwCtSO3/D8dRqeU7ENNuowH3KCzyXTSMfdE18B7E/NWq9iKsaDAotlnZywMi/a5Jkbn3UVk1mfAsPolJgDdtM44Q01Va5pH+wA16TyiUvJhYF0cVxFtv5nbwvUyzR5fhI/w982VsVVa8VV2ynCUM+uCKVDroIgxnT1vLgVmsN541ji4JkFYvlPaQhnVfzkannvXYvVmE19EuDoXREDU+WiMhbBH1K5uObAGri5QFUVwdiUS/scZhUAbFUIZlPF6ZF5ebl8EuGH9UidIo+5fbAoBfeETd3o+3wXpDMcdCODFTcHMleg9COys2mQ319WehYXetSgVg2RtJjmDrC/m0efzCHaqTO/AJpVBPWk7+fmzCLgfjw6EVV1EEKwminw5ifXRLUzOQJSuB8JkKI8FhPe3/juTPFeAD46vYuvBlnsXzS05FN8g60ZoRIx94r+W+Qn9jqB4oJ5Yv8ZPi7Etl+PxwLQokvsw41zgISQwMrJ4QVex7/QXK+NPFp5906HmWiIX7/TxNEI0b9Nk8Q0SsnV+/+zk0Mui5wbcRKK4LvrO6KlEiBXcQfKbK+TxfsEg1VOXoOf7+rClzyPIDW3eXdIPHZucQx99eYkuqBgvIiBRiPSe3DKGoLpGMLBoYrLq5tofkr+db8/uy+KFzTXFLxlQIBTc=
